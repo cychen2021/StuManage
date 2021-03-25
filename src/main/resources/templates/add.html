@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/layout :: layout (~{::body})}"
+>
+<body>
+<div class="student_adder">
+    <a th:text="#{back_text}" href="/">Return to the home page</a>
+    <hr/>
+    <h2 th:text="#{student_add_header}">Add a student</h2>
+    <form action="/add_student">
+        <table>
+            <tr>
+                <th th:text="#{student_name_text}+#{colon}">Name:</th>
+                <td width="200px">
+                    <input type="text" name="name"/>
+                </td>
+                <th th:text="#{student_gender_text}+#{colon}">Gender:</th>
+                <td width="200px">
+                    <input type="radio" name="gender" value="male"/>
+                    <th:block th:text="#{student_gender_male}"/>
+                    &nbsp;
+                    <input type="radio" name="gender" value="female"/>
+                    <th:block th:text="#{student_gender_female}"/>
+                    &nbsp;
+                    <input type="radio" name="gender" value="other"/>
+                    <th:block th:text="#{student_gender_other}"/>
+                </td>
+                <th th:text="#{student_birth_text}+#{colon}">Date of Birth:</th>
+                <td width="200px">
+                    <input name="birth_date" type="month"/>
+                </td>
+
+            </tr>
+            <tr>
+                <th th:text="#{student_native_text}+#{colon}">Native Place:</th>
+                <td width="200px">
+                    <input type="text" name="native_place"/>
+                </td>
+                <th th:text="#{student_department_text}+#{colon}">Department:</th>
+                <td width="200px">
+                    <input type="text" name="department"/>
+                </td>
+                <th th:text="#{student_id_text}+#{colon}">ID:</th>
+                <td width="200px">
+                    <input type="text" name="id"/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" th:value="#{submit}">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/exception :: exception (~{::div})}"
+>
+<body>
+    <div>
+        <p><th:block th:text="#{oups_edit_message1}">Cannot modify the student because the following student information is missing:</th:block></p>
+        <p>
+            <th:block th:if="${name_missing}" th:text="#{student_name_text}"/>
+            <th:block th:if="${gender_missing}" th:text="#{student_gender_text}"/>
+            <th:block th:if="${birth_date_missing}" th:text="#{student_birth_text}"/>
+            <th:block th:if="${native_place_missing}" th:text="#{student_native_text}"/>
+            <th:block th:if="${department_missing}" th:text="#{student_department_text}"/>
+            <th:block th:if="${id_missing}" th:text="#{student_id_text}"/>
+        </p>
+        <p><th:block th:text="#{oups_edit_message2}">Please reenter the information!</th:block></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:fragment="layout (template)"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{title}">Student Management System</title>
+</head>
+<body>
+<h1 th:text="#{header}">Student Management System</h1>
+
+<hr/>
+
+<th:block th:include="${template}" />
+
+</body>
+</html>

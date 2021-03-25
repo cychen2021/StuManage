@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/layout :: layout (~{::body})}"
+>
+<body>
+    <a th:text="#{student_add_header}" href="add">Add a student</a>
+    <a th:text="#{search_text}" href="search">Search students</a>
+    <hr/>
+
+    <div class="student_list">
+        <h2 th:text="#{student_list_header}">View the student list</h2>
+        <details>
+            <summary th:text="#{student_list_summary}">View the student list</summary>
+            <th:block th:replace="~{fragments/student_table :: student_table}"/>
+        </details>
+    </div>
+</body>
+</html>

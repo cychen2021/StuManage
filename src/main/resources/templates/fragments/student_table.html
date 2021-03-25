@@ -1,0 +1,38 @@
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:fragment="student_table"
+>
+<table rules="all" frame="border">
+    <thead>
+    <tr>
+        <th th:text="#{student_index_text}">Index</th>
+        <th th:text="#{student_id_text}">ID</th>
+        <th th:text="#{student_name_text}">Name</th>
+        <th th:text="#{student_gender_text}">Gender</th>
+        <th th:text="#{student_birth_text}">Date of Birth</th>
+        <th th:text="#{student_native_text}">Native Place</th>
+        <th th:text="#{student_department_text}">Department</th>
+        <th th:text="#{operation_text}">Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student, idx : ${students}">
+        <td th:text="${idx.index+1}"/>
+        <td th:text="${student.getID()}"/>
+        <td th:text="${student.getName()}"/>
+        <td th:if="${student.isMaleGender()}" th:text="#{student_gender_male}"/>
+        <td th:if="${student.isFemaleGender()}" th:text="#{student_gender_female}"/>
+        <td th:if="${student.isOtherGender()}" th:text="#{student_gender_other}"/>
+        <td th:text="${student.getBirthDate()}"/>
+        <td th:text="${student.getNativePlace()}"/>
+        <td th:text="${student.getDepartment()}"/>
+        <td>
+            <a th:text="#{del_text}" href="/del_student" th:href="@{/del_student(realID=${student.getRealId()})}"/>
+            &nbsp;
+            <a th:text="#{edit_text}" href="/edit_student" th:href="@{/edit_student(realID=${student.getRealId()})}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</html>

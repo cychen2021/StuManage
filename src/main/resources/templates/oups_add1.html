@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/exception :: exception (~{::div})}"
+>
+<body>
+    <div>
+        <p><th:block th:text="#{oups_message1_1(${id})}">Cannot add the student because the ID duplicates an existing one.</th:block></p>
+        <p><th:block th:text="#{oups_message2}">Please reenter the information!</th:block></p>
+    </div>
+</body>
+</html>

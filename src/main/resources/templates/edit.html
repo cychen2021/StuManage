@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/layout :: layout (~{::body})}"
+>
+<body>
+<div class="student_adder">
+    <a th:text="#{back_text}" href="/">Return to the home page</a>
+    <hr/>
+    <h2 th:text="#{student_edit_header}">Edit the student's information</h2>
+    <form action="/mod_student">
+        <table>
+            <tr>
+                <th th:text="#{student_name_text}+#{colon}">Name:</th>
+                <td width="200px">
+                    <input type="text" name="name" th:value="${student.getName()}"/>
+                </td>
+                <th th:text="#{student_gender_text}+#{colon}">Gender:</th>
+                <td width="200px">
+                    <th:block th:switch="${student.getGender()}">
+                        <div th:case="'male'">
+                            <input type="radio" name="gender" value="male" checked="checked"/>
+                            <th:block th:text="#{student_gender_male}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="female"/>
+                            <th:block th:text="#{student_gender_female}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="other"/>
+                            <th:block th:text="#{student_gender_other}"/>
+                        </div>
+                        <div th:case="'female'">
+                            <input type="radio" name="gender" value="male"/>
+                            <th:block th:text="#{student_gender_male}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="female" checked="checked"/>
+                            <th:block th:text="#{student_gender_female}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="other"/>
+                            <th:block th:text="#{student_gender_other}"/>
+                        </div>
+                        <div th:case="'other'">
+                            <input type="radio" name="gender" value="male"/>
+                            <th:block th:text="#{student_gender_male}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="female"/>
+                            <th:block th:text="#{student_gender_female}"/>
+                            &nbsp;
+                            <input type="radio" name="gender" value="other" checked="checked"/>
+                            <th:block th:text="#{student_gender_other}"/>
+                        </div>
+                    </th:block>
+                </td>
+                <th th:text="#{student_birth_text}+#{colon}">Date of Birth:</th>
+                <td width="200px">
+                    <input name="birth_date" type="month" th:value="${student.getBirthDate()}"/>
+                </td>
+
+            </tr>
+            <tr>
+                <th th:text="#{student_native_text}+#{colon}">Native Place:</th>
+                <td width="200px">
+                    <input type="text" name="native_place" th:value="${student.getNativePlace()}"/>
+                </td>
+                <th th:text="#{student_department_text}+#{colon}">Department:</th>
+                <td width="200px">
+                    <input type="text" name="department" th:value="${student.getDepartment()}"/>
+                </td>
+                <th th:text="#{student_id_text}+#{colon}">ID:</th>
+                <td width="200px">
+                    <input type="text" name="id" th:value="${student.getID()}"/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" th:value="#{submit}">
+        <input name="real_id" type="text" readonly="readonly" hidden="hidden" th:value="${student.getRealId()}"/>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+        th:replace="~{fragments/layout :: layout (~{::body})}"
+>
+<body>
+<div class="student_searcher">
+    <a th:text="#{back_text}" href="/">Return to the home page</a>
+    <hr/>
+    <h2 th:text="#{search_text}">Search students</h2>
+    <p th:text="#{search_prompt}">Please enter the student(s)' name or ID. If both entered, we will search the students match either of them.</p>
+    <form action="/search_student">
+        <table>
+            <tr>
+                <th th:text="#{student_name_text}+#{colon}">Name:</th>
+                <td width="200px">
+                    <input type="text" name="name"/>
+                </td>
+                <th th:text="#{student_id_text}+#{colon}">ID:</th>
+                <td width="200px">
+                    <input name="id" type="text"/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" th:value="#{submit}">
+    </form>
+</div>
+</body>
+</html>
