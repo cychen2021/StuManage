@@ -6,7 +6,7 @@ This is the first course project for "Program Architecture" in the spring of 202
 
 ## How to build and run
 
-This project requires Gradle 6.8.3 (or newer version) and JDK 11 (or newer version) to build and run.
+This project requires Gradle 6.8.3 (or a newer version) and JDK 11 (or a newer version) to build and run.
 
 You can use the command
 
