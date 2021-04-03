@@ -1,6 +1,6 @@
 # StuManage
 
-[English Version](README.md)
+[English](README.md)
 
 本项目为南京大学2021年春季课程“软件体系结构”的第一次课程作业。它实现了一个具有增删查改功能的简单学生信息管理系统。
 

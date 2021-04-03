@@ -1,6 +1,6 @@
 # StuManage
 
-[中文版本](README_ZH_CN.md)
+[中文](README_ZH_CN.md)
 
 This is the first course project for "Program Architecture" in the spring of 2021, at Nanjing University. It implements a simple student management system with functions of adding, deleting, searching, and editing student information.
 
