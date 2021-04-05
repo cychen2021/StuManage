@@ -37,3 +37,5 @@ out/
 .vscode/
 
 db/
+images_with_cache/
+images_without_cache/

@@ -36,4 +36,13 @@ public interface StudentRepository extends CrudRepository<Student, Integer> {
     @Transactional
     @Modifying
     void deleteByRealId(@Param("realID") Integer realID);
+
+    @Query("SELECT student FROM Student student WHERE student.nativePlace LIKE '湖北省' OR student.department LIKE " +
+            "'计算机科学与技术系' ORDER BY student.birthDate ASC, student.ID ASC")
+    @Transactional(readOnly = true)
+    Collection<Student> testQuery();
+
+//    @Query("SELECT student FROM Student student")
+//    @Transactional(readOnly = true)
+//    Collection<Student> findAll();
 }

@@ -2,6 +2,17 @@ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'com.google.cloud.tools.jib' version '2.8.0'
+}
+
+jib {
+	to {
+		image = "stumanage_with_cache"
+		auth {
+			username = 'nomanous'
+			password = 'klot4phox.ZOOB_vent'
+		}
+	}
 }
 
 group = 'xyz.cychen'
@@ -10,7 +21,7 @@ sourceCompatibility = '11'
 
 repositories {
 	maven {
-		url "https://maven.aliyun.com/nexus/content/groups/public"
+		url 'https://maven.aliyun.com/repository/public'
 	}
 }
 
@@ -20,10 +31,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 //	implementation 'org.springframework.data:spring-data-commons'
 //	implementation 'org.springframework.data:spring-data-jpa'
 //	implementation 'javax.persistence:javax.persistence-api'
 	implementation 'javax.validation:validation-api'
+//	implementation 'mysql:mysql-connector-java'
 	implementation 'com.h2database:h2'
 }
 

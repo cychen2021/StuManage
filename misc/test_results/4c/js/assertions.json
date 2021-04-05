@@ -1,0 +1,10 @@
+{
+  "simulation": "MySimulationParallel",
+  "simulationId": "mysimulationparallel",
+  "start": 1617621614734,
+  "description": "4c",
+  "scenarios": ["Para100"],
+  "assertions": [
+
+  ]
+}

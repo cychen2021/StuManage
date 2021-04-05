@@ -1,0 +1,3 @@
+2021-04-05 17:24:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT IGNORE[*] INTO STUDENTS VALUES (1, '贺店者', 0, '1998-04-01', '台湾省', '信息管理学院', '023582163')"; expected "INTO"; SQL statement:
+INSERT IGNORE INTO students VALUES (1, '贺店者', 0, '1998-04-01', '台湾省', '信息管理学院', '023582163') [42001-200]

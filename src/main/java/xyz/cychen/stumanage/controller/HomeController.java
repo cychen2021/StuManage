@@ -1,5 +1,6 @@
 package xyz.cychen.stumanage.controller;
 
+//import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,25 +8,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.cychen.stumanage.model.Student;
 import xyz.cychen.stumanage.model.StudentRepository;
+import xyz.cychen.stumanage.service.StudentService;
 
 import java.text.ParseException;
 import java.util.Collection;
-import java.util.LinkedList;
 
 @Controller
 @ComponentScan(basePackageClasses = {xyz.cychen.stumanage.model.StudentRepository.class})
 public class HomeController {
     @GetMapping("/")
     public String home(ModelMap model) {
+        Iterable<Student> test = students.findAll();
         model.put("students", students.findAll());
         model.put("idle", true);
         return "home";
     }
 
-    private final StudentRepository students;
+//    private final StudentRepository students;
+    private final StudentService students;
 
-    public HomeController(StudentRepository students) {
+    public HomeController(StudentService students) {
         this.students = students;
+//        this.cacheManager = cacheManager;
     }
 
     @GetMapping("/add")
@@ -138,5 +142,12 @@ public class HomeController {
         students.save(student);
         model.put("students", students.findAll());
         return "redirect:/";
+    }
+
+    @RequestMapping("/test")
+    String getTestPage(ModelMap model) {
+        Collection<Student> result = students.testQuery();
+        model.put("students", result);
+        return "search_result";
     }
 }
