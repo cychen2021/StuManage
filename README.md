@@ -14,6 +14,6 @@
 
 ## 前端
 
-我们使用[Vue.js]([Vue.js (vuejs.org)](https://vuejs.org/))及其插件[vue-resource]([pagekit/vue-resource: The HTTP client for Vue.js (github.com)](https://github.com/pagekit/vue-resource))和[vuejs-dialog](https://github.com/Godofbrowser/vuejs-dialog)为学生管理系统实现了简易的前端界面。这一前端可以使用前述RESTful API从后端系统获取相关信息，处理后显示在界面上，并可在输入（例如添加、编辑学生）时校验输入内容的合法性，避免不合法输入导致的错误。
+我们使用[Vue.js](https://vuejs.org)及其插件[vue-resource](https://github.com/pagekit/vue-resource)和[vuejs-dialog](https://github.com/Godofbrowser/vuejs-dialog)为学生管理系统实现了简易的前端界面。这一前端可以使用前述RESTful API从后端系统获取相关信息，处理后显示在界面上，并可在输入（例如添加、编辑学生）时校验输入内容的合法性，避免不合法输入导致的错误。
 
 除了上述两点比较重要的区别外，我们还向数据库添加了十条初始数据以方便演示，另外还对之前的程序进行了些微修改以适应新的API。
