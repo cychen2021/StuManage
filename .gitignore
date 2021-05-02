@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-db/
+/db/
 images_with_cache/
 images_without_cache/
