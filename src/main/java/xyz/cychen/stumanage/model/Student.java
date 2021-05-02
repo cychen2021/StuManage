@@ -1,8 +1,5 @@
 package xyz.cychen.stumanage.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,24 +14,28 @@ public class Student implements Serializable {
 
     }
 
-    public enum Gender {
-        Male,
-        Female,
-        Other
-    }
+//    public enum Gender {
+//        Male("male"),
+//        Female("female"),
+//        Other("other");
+//
+//        private String value;
+//        Gender(String value) {
+//            this.value = value;
+//        }
+//
+//        @JsonValue
+//        public String getValue() {
+//            return this.value;
+//        }
+//    }
 
 
     public Student(String name, String gender, String birthDate, String nativePlace, String department,
-                   String ID) throws ParseException {
+                   String studentId) throws ParseException {
         this.name = name;
-        if (gender.equals("male")) {
-            this.gender = Gender.Male;
-        }
-        else if (gender.equals("female")) {
-            this.gender = Gender.Female;
-        }
-        else if (gender.equals("other")) {
-            this.gender = Gender.Other;
+        if (gender.equals("male") || gender.equals("female") || gender.equals("other")) {
+            this.gender = gender;
         }
         else {
             throw new RuntimeException("Illegal gender string `"+gender+"`");
@@ -43,57 +44,24 @@ public class Student implements Serializable {
         this.birthDate = formatter.parse(birthDate);
         this.nativePlace = nativePlace;
         this.department = department;
-        this.ID = ID;
+        this.studentId = studentId;
     }
 
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setGender(String gender) {
-        if (gender.equals("male")) {
-            this.gender = Gender.Male;
-        }
-        else if (gender.equals("female")) {
-            this.gender = Gender.Female;
-        }
-        else if (gender.equals("other")) {
-            this.gender = Gender.Other;
-        }
-        else {
-            throw new RuntimeException("Illegal gender string `"+gender+"`");
-        }
-    }
-
-    public void setBirthDate(String birthDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
-        this.birthDate = formatter.parse(birthDate);
-    }
-
-    public void setNativePlace(String nativePlace) {
-        this.nativePlace = nativePlace;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "real_id", updatable = false)
     private Integer realId;
+
+    public void setRealId(Integer realId) {
+        this.realId = realId;
+    }
 
     @Column(name = "name")
     @NotBlank
     private String name;
 
     @Column(name = "gender")
-//    @NotBlank
-    private Gender gender;
+    private String gender;
 
     @Column(name = "birth_date")
     private Date birthDate;
@@ -106,9 +74,9 @@ public class Student implements Serializable {
     @NotBlank
     private String department;
 
-    @Column(name = "id")
+    @Column(name = "student_id")
     @NotBlank
-    private String ID;
+    private String studentId;
 
     public Integer getRealId() {return realId;}
 
@@ -116,18 +84,12 @@ public class Student implements Serializable {
         return name;
     }
 
-    public boolean isMaleGender() { return gender==Gender.Male;}
-    public boolean isFemaleGender() { return gender==Gender.Female;}
-    public boolean isOtherGender() { return gender==Gender.Other;}
     public String getGender() {
-        if (gender==Gender.Male) {
-            return "male";
-        }
-        else if (gender==Gender.Female) {
-            return "female";
+        if (gender.equals("male") || gender.equals("female") || gender.equals("other")) {
+            return gender;
         }
         else {
-            return"other";
+            throw new RuntimeException("Illegal gender string `"+gender+"`");
         }
     }
 
@@ -144,7 +106,7 @@ public class Student implements Serializable {
         return department;
     }
 
-    public String getID() {
-        return ID;
+    public String getStudentId() {
+        return studentId;
     }
 }

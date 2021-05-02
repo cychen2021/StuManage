@@ -1,0 +1,10 @@
+INSERT INTO students VALUES (1, '贺店者', 'male', '1998-04-01', '台湾省', '信息管理学院', '023582163');
+INSERT INTO students VALUES (2, '龚稠彝', 'male', '1996-09-01', '湖南省', '环境学院', '131860587');
+INSERT INTO students VALUES (3, '邹穆', 'male', '2000-09-01', '广西壮族自治区', '信息管理学院', '095922139');
+INSERT INTO students VALUES (4, '曾沁', 'female', '1997-08-01', '山西省', '社会学院', '162924040');
+INSERT INTO students VALUES (5, '薛鼎琉', 'female', '2002-02-01', '四川省', '建筑与城市规划学院', '056886389');
+INSERT INTO students VALUES (6, '马芦', 'female', '1995-04-01', '北京市', '马克思主义学院', '151504341');
+INSERT INTO students VALUES (7, '何玉', 'female', '2000-02-01', '澳门特别行政区', '工程管理学院', '147971591');
+INSERT INTO students VALUES (8, '皇甫甭血', 'male', '1996-02-01', '新疆维吾尔自治区', '政府管理学院', '004822162');
+INSERT INTO students VALUES (9, '贾料', 'male', '1999-04-01', '河北省', '天文与空间科学学院', '091313092');
+INSERT INTO students VALUES (10, '韦吁', 'male', '2000-01-01', '安徽省', '哲学系（宗教学系）', '115950398');

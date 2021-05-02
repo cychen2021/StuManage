@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+    lang="zh"
+    xmlns:th="https://www.thymeleaf.org"
+    th:replace="~{fragments/layout :: layout (~{::body})}"
+>
+<body>
+    <a href="add">添加学生</a>
+    <a href="search">查找学生</a>
+    <hr/>
+    <h2 id="list_title">
+        查看全部学生
+    </h2>
+    <details>
+        <summary>点击查看全部学生</summary>
+        <th:block th:replace="~{fragments/student_table :: student_table}"/>
+        <script type="text/javascript">
+            studentList.findAll();
+        </script>
+    </details>
+</body>
+</html>

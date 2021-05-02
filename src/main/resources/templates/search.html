@@ -5,26 +5,57 @@
         th:replace="~{fragments/layout :: layout (~{::body})}"
 >
 <body>
-<div class="student_searcher">
-    <a th:text="#{back_text}" href="/">Return to the home page</a>
+<div>
+    <a th:href="@{/}">回到首页</a>
     <hr/>
-    <h2 th:text="#{search_text}">Search students</h2>
-    <p th:text="#{search_prompt}">Please enter the student(s)' name or ID. If both entered, we will search the students match either of them.</p>
-    <form action="/search_student">
+    <h2>查找学生</h2>
+    <p>请输入姓名或学号，如果同时输入，则将查找匹配其任一的学生。</p>
+    <form id="search" @submit.prevent="submit">
         <table>
             <tr>
-                <th th:text="#{student_name_text}+#{colon}">Name:</th>
+                <th>姓名：</th>
                 <td width="200px">
-                    <input type="text" name="name"/>
+                    <input type="text" name="name" v-model="name"/>
                 </td>
-                <th th:text="#{student_id_text}+#{colon}">ID:</th>
+                <th>学号：</th>
                 <td width="200px">
-                    <input name="id" type="text"/>
+                    <input name="id" type="text" v-model="id"/>
                 </td>
             </tr>
         </table>
-        <input type="submit" th:value="#{submit}">
+        <input type="submit" value="提交"/>
     </form>
 </div>
+<hr/>
+<div id="search_result">
+    <h2>查找结果</h2>
+    <th:block th:replace="~{fragments/student_table :: student_table}" />
+</div>
+<script type="text/javascript">
+    var searchForm = new Vue({
+        el: '#search',
+        data: {
+            name: null,
+            id: null
+        },
+        methods: {
+            submit: function () {
+                if ((this.name == null || !this.name.trim()) && (this.id == null || !this.id.trim())) {
+                    this.$dialog.alert('姓名与学号请至少填写一项！');
+                    return;
+                }
+                var name = this.name;
+                if (this.name != null) {
+                    name = this.name.trim();
+                }
+                var id = this.id;
+                if (this.id != null) {
+                    id = this.id.trim();
+                }
+                studentList.findByNameOrId(name, id);
+            }
+        }
+    });
+</script>
 </body>
 </html>

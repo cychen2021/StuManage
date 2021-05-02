@@ -1,38 +1,115 @@
 <html
-        lang="en"
+        lang="zh"
         xmlns:th="https://www.thymeleaf.org"
         th:fragment="student_table"
 >
-<table rules="all" frame="border">
+<table id="student_list" rules="all" frame="border">
     <thead>
     <tr>
-        <th th:text="#{student_index_text}" width="200px">Index</th>
-        <th th:text="#{student_id_text}" width="200px">ID</th>
-        <th th:text="#{student_name_text}" width="200px">Name</th>
-        <th th:text="#{student_gender_text}" width="200px">Gender</th>
-        <th th:text="#{student_birth_text}" width="200px">Date of Birth</th>
-        <th th:text="#{student_native_text}" width="200px">Native Place</th>
-        <th th:text="#{student_department_text}" width="200px">Department</th>
-        <th th:text="#{operation_text}" width="200px">Operation</th>
+        <th width="200px">序号</th>
+        <th width="200px">学号</th>
+        <th width="200px">姓名</th>
+        <th width="200px">性别</th>
+        <th width="200px">出生年月</th>
+        <th width="200px">籍贯</th>
+        <th width="200px">院系</th>
+        <th width="200px">操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="student, idx : ${students}">
-        <td th:text="${idx.index+1}" align="center"/>
-        <td th:text="${student.getID()}" align="center"/>
-        <td th:text="${student.getName()}" align="center"/>
-        <td th:if="${student.isMaleGender()}" th:text="#{student_gender_male}" align="center"/>
-        <td th:if="${student.isFemaleGender()}" th:text="#{student_gender_female}" align="center"/>
-        <td th:if="${student.isOtherGender()}" th:text="#{student_gender_other}" align="center"/>
-        <td th:text="${student.getBirthDate()}" align="center"/>
-        <td th:text="${student.getNativePlace()}" align="center"/>
-        <td th:text="${student.getDepartment()}" align="center"/>
+    <tr v-for="(student, idx) in studentList">
+        <td align="center">{{ idx+1 }}</td>
+        <td align="center">{{ student.id }}</td>
+        <td align="center">{{ student.name }}</td>
+        <td align="center">{{ student.gender }}</td>
+        <td align="center">{{ student.birthDate }}</td>
+        <td align="center">{{ student.nativePlace }}</td>
+        <td align="center">{{ student.department }}</td>
         <td align="center">
-            <a th:text="#{del_text}" href="/del_student" th:href="@{/del_student(realID=${student.getRealId()})}"/>
-            &nbsp;
-            <a th:text="#{edit_text}" href="/edit_student" th:href="@{/edit_student(realID=${student.getRealId()})}"/>
+            <button type="submit" :value="student.realId" @click="deleteStudent($event.target.value)">删除</button>
+            <button type="submit" :value="student.realId" @click="editStudent($event.target.value)">编辑</button>
         </td>
     </tr>
     </tbody>
 </table>
+<script type="text/javascript">
+    var studentList = new Vue({
+        el: '#student_list',
+        data: {
+            studentList: [],
+            idRecord: null,
+            nameRecord: null
+        },
+        methods: {
+            findAll: function () {
+                this.$http.get('students').then(
+                    response => {
+                        var content = response.data.content;
+                        var studentList = []
+                        for (i = 0; i < content.length; i++) {
+                            var c = content[i];
+                            var s = {
+                                id: c.studentId,
+                                name: c.name,
+                                gender: c.gender === 'male' ? '男' : (c.gender === 'female'? '女' : '其他'),
+                                birthDate: c.birthDate,
+                                nativePlace: c.nativePlace,
+                                department: c.department,
+                                realId: c.realId
+                            };
+                            studentList.push(s);
+                        }
+                        this.$data.studentList = studentList;
+                    },
+                    response => this.$dialog.alert('学生列表加载失败，错误代码：'+response.status+'，请刷新重试！')
+                )
+            },
+            findByNameOrId: function (name, id) {
+                name = name == null ? '' : name;
+                id = id == null ? '' : id;
+                this.idRecord = id;
+                this.nameRecord = name;
+                this.$http.get('/students?name='+name+'&id='+id).then(
+                    response => {
+                        var content = response.data.content;
+                        var studentList = []
+                        for (i = 0; i < content.length; i++) {
+                            var c = content[i];
+                            var s = {
+                                id: c.studentId,
+                                name: c.name,
+                                gender: c.gender === 'male' ? '男' : (c.gender === 'female'? '女' : '其他'),
+                                birthDate: c.birthDate,
+                                nativePlace: c.nativePlace,
+                                department: c.department,
+                                realId: c.realId
+                            };
+                            studentList.push(s);
+                        }
+                        this.studentList = studentList;
+                    },
+                    response => this.$dialog.alert('学生信息查询失败，错误代码：'+response.status+'，请重试！')
+                )
+            },
+            deleteStudent: function (realId) {
+                var idRecord = this.idRecord;
+                var nameRecord = this.nameRecord;
+                this.$http.delete('/student?real_id='+realId).then(
+                    _ => {
+                        if (idRecord == null && nameRecord == null) {
+                            this.findAll();
+                        }
+                        else {
+                            this.findByNameOrId(nameRecord, idRecord);
+                        }
+                    },
+                    response => this.$dialog.alert('删除学生信息失败，错误代码：'+response.status+'，请重试！')
+                )
+            },
+            editStudent: function (realId) {
+                location.href = '/edit/'+realId;
+            }
+        }
+    });
+</script>
 </html>

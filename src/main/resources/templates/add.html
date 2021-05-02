@@ -5,51 +5,160 @@
         th:replace="~{fragments/layout :: layout (~{::body})}"
 >
 <body>
-<div class="student_adder">
-    <a th:text="#{back_text}" href="/">Return to the home page</a>
+    <a th:href="@{/}">回到首页</a>
     <hr/>
-    <h2 th:text="#{student_add_header}">Add a student</h2>
-    <form action="/add_student">
+    <h2>添加学生</h2>
+    <form id="the_form" @submit.prevent="submit">
         <table>
             <tr>
-                <th th:text="#{student_name_text}+#{colon}">Name:</th>
+                <th>姓名：</th>
                 <td width="200px">
-                    <input type="text" name="name"/>
+                    <input v-model="name" type="text" name="name"/>
                 </td>
-                <th th:text="#{student_gender_text}+#{colon}">Gender:</th>
-                <td width="300px">
-                    <input type="radio" name="gender" value="male"/>
-                    <th:block th:text="#{student_gender_male}"/>
-                    &nbsp;
-                    <input type="radio" name="gender" value="female"/>
-                    <th:block th:text="#{student_gender_female}"/>
-                    &nbsp;
-                    <input type="radio" name="gender" value="other"/>
-                    <th:block th:text="#{student_gender_other}"/>
-                </td>
-                <th th:text="#{student_birth_text}+#{colon}">Date of Birth:</th>
+                <th>性别：</th>
                 <td width="200px">
-                    <input name="birth_date" type="month"/>
+                    <label>
+                        <input v-model="gender" type="radio" name="gender" value="male"/>
+                        男
+                    </label>
+                     
+                    <label>
+                        <input v-model="gender" type="radio" name="gender" value="female"/>
+                        女
+                    </label>
+                    &nbsp;
+                    <label>
+                        <input v-model="gender" type="radio" name="gender" value="other"/>
+                        其他
+                    </label>
+                </td>
+                <th>出生年月：</th>
+                <td width="200px">
+                    <label>
+                        <input v-model="birthDate" name="birth_date" type="month"/>
+                    </label>
                 </td>
 
             </tr>
             <tr>
-                <th th:text="#{student_native_text}+#{colon}">Native Place:</th>
+                <th>籍贯：</th>
                 <td width="200px">
-                    <input type="text" name="native_place"/>
+                    <label>
+                        <input v-model="nativePlace" type="text" name="native_place"/>
+                    </label>
                 </td>
-                <th th:text="#{student_department_text}+#{colon}">Department:</th>
+                <th>院系：</th>
                 <td width="200px">
-                    <input type="text" name="department"/>
+                    <label>
+                        <input v-model="department" type="text" name="department"/>
+                    </label>
                 </td>
-                <th th:text="#{student_id_text}+#{colon}">ID:</th>
+                <th>学号：</th>
                 <td width="200px">
-                    <input type="text" name="id"/>
+                    <label>
+                        <input v-model="studentId" type="text" name="student_id"/>
+                    </label>
                 </td>
             </tr>
         </table>
-        <input type="submit" th:value="#{submit}">
+        <input type="submit" value="提交">
     </form>
-</div>
+    <script type="text/javascript">
+        var theForm = new Vue({
+            el: '#the_form',
+            data: {
+                name: null,
+                gender: null,
+                birthDate: null,
+                nativePlace: null,
+                department: null,
+                studentId: null
+            },
+            methods: {
+                submit: function () {
+                    missing = []
+                    var name, gender, birthDate, nativePlace, studentId, department;
+                    if (this.name == null || !this.name.trim()) {
+                        missing.push('姓名');
+                    }
+                    else {
+                        name = this.name.trim();
+                    }
+                    if (this.gender == null) {
+                        missing.push('性别');
+                    }
+                    else {
+                        gender = this.gender;
+                    }
+                    if (this.birthDate == null) {
+                        missing.push('出生年月');
+                    }
+                    else {
+                        birthDate = this.birthDate+'-01';
+                    }
+                    if (this.nativePlace == null || !this.nativePlace.trim()) {
+                        missing.push('籍贯');
+                    }
+                    else {
+                        nativePlace = this.nativePlace.trim();
+                    }
+                    if (this.department == null || !this.department.trim()) {
+                        missing.push('院系');
+                    }
+                    else {
+                        department = this.department.trim();
+                    }
+                    if (this.studentId == null || !this.studentId.trim()) {
+                        missing.push('学号');
+                    }
+                    else {
+                        studentId = this.studentId.trim();
+                    }
+
+                    if (missing.length > 0) {
+                        var prompt = '';
+                        for (i = 0; i < missing.length; i++) {
+                            prompt += missing[i];
+                            if (i != missing.length - 1) {
+                                prompt += '、'
+                            }
+                        }
+                        this.$dialog.alert(prompt+'等信息缺失，请补全缺失信息！');
+                        return;
+                    }
+                    var selfRef = this;
+                    this.$http.post(
+                        '/student',
+                        {
+                            name: name,
+                            studentId: studentId,
+                            department: department,
+                            gender: gender,
+                            birthDate: birthDate,
+                            nativePlace: nativePlace
+                        }
+                    ).then(
+                        _ => {
+                            this.$dialog.alert('添加学生成功！');
+                            selfRef.name = null;
+                            selfRef.studentId = null;
+                            selfRef.gender = null;
+                            selfRef.birthDate = null;
+                            selfRef.nativePlace = null;
+                            selfRef.department = null;
+                        },
+                        response => {
+                            if (response.status === 409) {
+                                this.$dialog.alert('添加学生失败，学号与其他学生的学号冲突！');
+                            }
+                            else {
+                                this.$dialog.alert('添加学生失败，错误代码：'+status+'，请重新尝试！');
+                            }
+                        }
+                    )
+                }
+            }
+        })
+    </script>
 </body>
 </html>

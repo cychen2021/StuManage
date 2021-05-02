@@ -1,25 +1,17 @@
 # StuManage
 
-[中文](README_ZH_CN.md)
+本分支是《软件体系结构》的第3次课程作业。在本次作业中，我们将原本的学生管理系统更改为RESTful风格，并使用Vue为其开发了简易的前端界面。
 
-This is the first course project for "Program Architecture" in the spring of 2021, at Nanjing University. It implements a simple student management system with functions of adding, deleting, searching, and editing student information.
+本分支大部分内容与master分支相同，只有两点值得一提的区别。
 
-## How to build and run
+## RESTful API
 
-This project requires Gradle 6.8.3 (or a newer version) and JDK 11 (or a newer version) to build and run.
+我们将原本的控制器`HomeController`更改为RESTful风格的控制器`MainController`。该控制器接受`GET /students?name=<name>&id=<id>`请求用于根据学号和姓名查询学生信息，`POST /student`用于添加一条学生信息，`PUT /student`用于更新某条学生信息，`DELETE /student?real_id=<internal_id>`用于根据内部ID删除某条学生信息。此外，还有用于载入单条待编辑学生信息的`GET /student?real_id=<internal_id>`请求，这一请求使用内部ID定位待编辑学生的信息——而不是使用学号和姓名——这是因为不同学生的学号和姓名有可能重复，而内部ID是唯一的。
 
-You can use the command
+上述控制器只返回JSON对象给客户端，因此只能作为后端API使用。为了让客户端能够获取作为前端界面的网页，我们还编写了一个普通的`PageController`，用于接受对不同网页（包括搜索学生的页面、编辑学生信息的页面和添加学生信息的页面）的请求、并返回对应网页。这一控制器对于实现前端界面是必须的，且结构十分简单，不影响系统整体的RESTful风格。
 
-```shell
-./gradlew bootRun
-```
+## 前端
 
-to automatically download the appropriate version of Gradle, build the project, and then launch it. This command has been tested on Windows (PowerShell) and Linux (Bash), but not on macOS. However, it may be very slow to use this to download Gradle in mainland China. If you have already installed Gradle, the following command is more recommended:
+我们使用[Vue.js]([Vue.js (vuejs.org)](https://vuejs.org/))及其插件[vue-resource]([pagekit/vue-resource: The HTTP client for Vue.js (github.com)](https://github.com/pagekit/vue-resource))和[vuejs-dialog](https://github.com/Godofbrowser/vuejs-dialog)为学生管理系统实现了简易的前端界面。这一前端可以使用前述RESTful API从后端系统获取相关信息，处理后显示在界面上，并可在输入（例如添加、编辑学生）时校验输入内容的合法性，避免不合法输入导致的错误。
 
-```shell
-gradle bootRun
-```
-
-The dependencies will also be automatically downloaded during the process and require no concern.
-
-After launching the application, visit [http://localhost:8080](http://localhost:8080) in your browser to access the student manage system.
+除了上述两点比较重要的区别外，我们还向数据库添加了十条初始数据以方便演示，另外还对之前的程序进行了些微修改以适应新的API。

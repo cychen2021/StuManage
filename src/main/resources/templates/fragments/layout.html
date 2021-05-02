@@ -6,10 +6,17 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{title}">Student Management System</title>
+    <title>学生管理系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+    <link th:href="@{../css/vuejs-dialog.min.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{../js/vuejs-dialog.min.js}"></script>
+    <script>
+        window.Vue.use(VuejsDialog.main.default);
+    </script>
 </head>
 <body>
-<h1 th:text="#{header}">Student Management System</h1>
+<h1>学生管理系统</h1>
 
 <hr/>
 
