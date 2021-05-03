@@ -39,3 +39,5 @@ out/
 /db/
 images_with_cache/
 images_without_cache/
+db.mv.db
+db.trace.db
