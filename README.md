@@ -8,7 +8,7 @@
 
 ## RESTful API
 
-我们将原本的控制器`HomeController`更改为RESTful风格的控制器`MainController`。该控制器接受`GET /students?name=<name>&id=<id>`请求用于根据学号和姓名查询学生信息，`POST /student`用于添加一条学生信息，`PUT /student`用于更新某条学生信息，`DELETE /student?real_id=<internal_id>`用于根据内部ID删除某条学生信息。此外，还有用于载入单条待编辑学生信息的`GET /student?real_id=<internal_id>`请求，这一请求使用内部ID定位待编辑学生的信息——而不是使用学号和姓名——这是因为不同学生的学号和姓名有可能重复，而内部ID是唯一的。
+我们将原本的控制器`HomeController`更改为RESTful风格的控制器`MainController`。该控制器接受`GET /students?name=<name>&id=<id>`请求用于根据学号和姓名查询学生信息，`POST /student`用于添加一条学生信息，`PUT /student`用于更新某条学生信息，`DELETE /student?real_id=<internal_id>`用于根据内部ID删除某条学生信息。此外，还有用于载入单条待编辑学生信息的`GET /student?real_id=<internal_id>`请求，这一请求使用内部ID定位待编辑学生的信息——而不是使用学号和姓名——这是因为被编辑学生的学号和姓名在编辑过程中有可能改变，而内部ID在这一过程中保持不变，故编辑学生信息时只能以学生的内部ID作为学生的标识符。
 
 上述控制器只返回JSON或XML等数据交换格式的对象给客户端，因此只能作为后端API使用。为了让客户端能够获取作为前端界面的HTML网页，我们还编写了一个普通的`PageController`，用于接受对不同网页（包括搜索学生的页面、编辑学生信息的页面和添加学生信息的页面）的请求、并返回对应网页。这一控制器对于实现前端界面是必须的，且结构十分简单，不影响系统整体的RESTful风格。
 
