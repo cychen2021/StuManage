@@ -15,37 +15,14 @@
                 <td width="200px">
                     <input v-model="name" type="text" name="name"/>
                 </td>
-                <th>性别：</th>
+                <th>联系电话：</th>
                 <td width="200px">
                     <label>
-                        <input v-model="gender" type="radio" name="gender" value="male"/>
-                        男
-                    </label>
-                     
-                    <label>
-                        <input v-model="gender" type="radio" name="gender" value="female"/>
-                        女
-                    </label>
-                    &nbsp;
-                    <label>
-                        <input v-model="gender" type="radio" name="gender" value="other"/>
-                        其他
-                    </label>
-                </td>
-                <th>出生年月：</th>
-                <td width="200px">
-                    <label>
-                        <input v-model="birthDate" name="birth_date" type="month"/>
+                        <input v-model="phone" type="text" name="phone"/>
                     </label>
                 </td>
             </tr>
             <tr>
-                <th>籍贯：</th>
-                <td width="200px">
-                    <label>
-                        <input v-model="nativePlace" type="text" name="native_place"/>
-                    </label>
-                </td>
                 <th>院系：</th>
                 <td width="200px">
                     <label>
@@ -67,9 +44,7 @@
             el: '#the_form',
             data: {
                 name: null,
-                gender: null,
-                birthDate: null,
-                nativePlace: null,
+                phone: null,
                 department: null,
                 studentId: null,
                 realId: null
@@ -84,10 +59,10 @@
                             var student = response.data;
                             selfRef.name = student.name;
                             selfRef.studentId = student.studentId;
-                            selfRef.gender = student.gender;
+                            // selfRef.gender = student.gender;
                             selfRef.department = student.department;
-                            selfRef.birthDate = student.birthDate;
-                            selfRef.nativePlace = student.nativePlace;
+                            // selfRef.birthDate = student.birthDate;
+                            selfRef.phone = student.phone;
                         },
                         response => {
                             this.$dialog.alert('获取待编辑学生信息失败，错误代码：'+response.status+'，请刷新页面重试！');
@@ -96,30 +71,18 @@
                 },
                 submit: function () {
                     missing = []
-                    var name, gender, birthDate, nativePlace, studentId, department, realId;
+                    var name, phone, studentId, department, realId;
                     if (this.name == null || !this.name.trim()) {
                         missing.push('姓名');
                     }
                     else {
                         name = this.name.trim();
                     }
-                    if (this.gender == null) {
-                        missing.push('性别');
+                    if (this.phone == null || !this.phone.trim()) {
+                        missing.push('联系电话');
                     }
                     else {
-                        gender = this.gender;
-                    }
-                    if (this.birthDate == null) {
-                        missing.push('出生年月');
-                    }
-                    else {
-                        birthDate = this.birthDate+'-01';
-                    }
-                    if (this.nativePlace == null || !this.nativePlace.trim()) {
-                        missing.push('籍贯');
-                    }
-                    else {
-                        nativePlace = this.nativePlace.trim();
+                        phone = this.phone.trim();
                     }
                     if (this.department == null || !this.department.trim()) {
                         missing.push('院系');
@@ -145,6 +108,10 @@
                         this.$dialog.alert(prompt+'等信息缺失，请补全缺失信息！');
                         return;
                     }
+                    if (!/^(\d{11}|((\+?\d+-)?\d+-)?\d+)$/.test(phone)) {
+                        this.$dialog.alert('联系电话格式错误，请重新输入！');
+                        return;
+                    }
                     realId = this.realId;
                     this.$http.put(
                         '/student',
@@ -152,9 +119,7 @@
                             name: name,
                             studentId: studentId,
                             department: department,
-                            gender: gender,
-                            birthDate: birthDate,
-                            nativePlace: nativePlace,
+                            phone: phone,
                             realId: realId
                         }
                     ).then(

@@ -1,19 +1,15 @@
 # StuManage
 
-本分支是《软件体系结构》的第3次课程作业。在本次作业中，我们将原本的学生管理系统更改为RESTful风格，并使用Vue为其开发了简易的前端界面。
+本分支是《软件体系结构》的第4次课程作业。在本作业中，我们使用Spring Batch读取了测试文件（位于data/test.xlsx）中存储的学生信息、进行处理后存入数据库内。
 
 项目的构建、运行与使用方法见master分支的README文件，此外，请确保您使用的浏览器支持HTML 5与Vue.js。
 
-本分支大部分内容与master分支相同，只有两点值得一提的区别。
+本分支基于第3次作业的分支assignment3，大部分内容也与该分支相同，但做了如下两点改动。
 
-## RESTful API
+## 增加Spring Batch数据处理模块
 
-我们将原本的控制器`HomeController`更改为RESTful风格的控制器`MainController`。该控制器接受`GET /students?name=<name>&id=<id>`请求用于根据学号和姓名查询学生信息，`POST /student`用于添加一条学生信息，`PUT /student`用于更新某条学生信息，`DELETE /student?real_id=<internal_id>`用于根据内部ID删除某条学生信息。此外，还有用于载入单条待编辑学生信息的`GET /student?real_id=<internal_id>`请求，这一请求使用内部ID定位待编辑学生的信息——而不是使用学号和姓名——这是因为不同学生的学号和姓名有可能重复，而内部ID是唯一的。
+我们在本分支中增加了`xyz.cychen.stumanage.batch`包，该包内包含使用Spring Batch读取与处理测试文件中学生信息的代码。我们定义了`StudentRowMapper`用于将测试文件中不同列映射到`Student`对象的不同字段；还定义了`StudentProcessor`用于为读取的`Student`对象生成内部ID；此外，`BatchConfiguration`用于配置Batch处理任务。
 
-上述控制器只返回JSON或XML等数据交换格式的对象给客户端，因此只能作为后端API使用。为了让客户端能够获取作为前端界面的HTML网页，我们还编写了一个普通的`PageController`，用于接受对不同网页（包括搜索学生的页面、编辑学生信息的页面和添加学生信息的页面）的请求、并返回对应网页。这一控制器对于实现前端界面是必须的，且结构十分简单，不影响系统整体的RESTful风格。
+## 更改学生信息条目的字段
 
-## 前端
-
-我们使用[Vue.js](https://vuejs.org)及其插件[vue-resource](https://github.com/pagekit/vue-resource)和[vuejs-dialog](https://github.com/Godofbrowser/vuejs-dialog)为学生管理系统实现了简易的前端界面。这一前端可以使用前述RESTful API从后端系统获取相关信息，处理后显示在界面上，并可在输入（例如添加、编辑学生）时校验输入内容的合法性，避免不合法输入导致的错误。
-
-除了上述两点比较重要的区别外，我们还向数据库添加了十条初始数据以方便演示，另外还对之前的程序进行了些微修改以适应新的API。
+之前几次作业要求系统能处理学生的姓名、学号、性别、籍贯、出生年月、院系信息，但本次作业提供的测试数据不包括学生的性别、出生年月和籍贯，而增加了联系电话信息。因此，我们对系统进行了相应的更改，删除了学生的性别、出生年月和籍贯信息，增加了联系电话信息，且前端会对联系电话的格式进行检查。

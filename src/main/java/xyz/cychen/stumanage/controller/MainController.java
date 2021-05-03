@@ -55,7 +55,13 @@ public class MainController {
         return ResponseEntity.ok(CollectionModel.of(students));
     }
 
-    Integer newestRealId = 1001;
+    static Integer newestRealId = 1001;
+
+    public static Integer getNewestRealId() {
+        Integer record = newestRealId;
+        newestRealId++;
+        return record;
+    }
 
     @PostMapping("/student")
     ResponseEntity<?> add(@RequestBody Student student) {
@@ -63,8 +69,7 @@ public class MainController {
         if (!idConflicts.isEmpty()) {
             return ResponseEntity.status(409).build();
         }
-        Integer realId = newestRealId;
-        newestRealId++;
+        Integer realId = getNewestRealId();
         student.setRealId(realId);
         studentRepository.save(student);
         return ResponseEntity.status(201).build();
@@ -82,8 +87,7 @@ public class MainController {
             return ResponseEntity.status(404).build();
         }
         studentRepository.deleteByRealId(student.getRealId());
-        student.setRealId(newestRealId);
-        newestRealId++;
+        student.setRealId(getNewestRealId());
         studentRepository.save(student);
         return ResponseEntity.ok().build();
     }

@@ -2,8 +2,6 @@ package xyz.cychen.stumanage.model;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -13,36 +11,10 @@ public class Student implements Serializable {
     public Student() {
 
     }
-
-//    public enum Gender {
-//        Male("male"),
-//        Female("female"),
-//        Other("other");
-//
-//        private String value;
-//        Gender(String value) {
-//            this.value = value;
-//        }
-//
-//        @JsonValue
-//        public String getValue() {
-//            return this.value;
-//        }
-//    }
-
-
-    public Student(String name, String gender, String birthDate, String nativePlace, String department,
+    public Student(String name, String phone, String department,
                    String studentId) throws ParseException {
         this.name = name;
-        if (gender.equals("male") || gender.equals("female") || gender.equals("other")) {
-            this.gender = gender;
-        }
-        else {
-            throw new RuntimeException("Illegal gender string `"+gender+"`");
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
-        this.birthDate = formatter.parse(birthDate);
-        this.nativePlace = nativePlace;
+        this.phone = phone;
         this.department = department;
         this.studentId = studentId;
     }
@@ -60,15 +32,9 @@ public class Student implements Serializable {
     @NotBlank
     private String name;
 
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "birth_date")
-    private Date birthDate;
-
-    @Column(name = "native_place")
+    @Column(name = "phone")
     @NotBlank
-    private String nativePlace;
+    private String phone;
 
     @Column(name = "department")
     @NotBlank
@@ -84,22 +50,8 @@ public class Student implements Serializable {
         return name;
     }
 
-    public String getGender() {
-        if (gender.equals("male") || gender.equals("female") || gender.equals("other")) {
-            return gender;
-        }
-        else {
-            throw new RuntimeException("Illegal gender string `"+gender+"`");
-        }
-    }
-
-    public String getBirthDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
-        return formatter.format(birthDate);
-    }
-
-    public String getNativePlace() {
-        return nativePlace;
+    public String getPhone() {
+        return phone;
     }
 
     public String getDepartment() {

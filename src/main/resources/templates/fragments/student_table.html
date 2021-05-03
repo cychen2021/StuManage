@@ -9,9 +9,7 @@
         <th width="200px">序号</th>
         <th width="200px">学号</th>
         <th width="200px">姓名</th>
-        <th width="200px">性别</th>
-        <th width="200px">出生年月</th>
-        <th width="200px">籍贯</th>
+        <th width="200px">联系电话</th>
         <th width="200px">院系</th>
         <th width="200px">操作</th>
     </tr>
@@ -21,9 +19,7 @@
         <td align="center">{{ idx+1 }}</td>
         <td align="center">{{ student.id }}</td>
         <td align="center">{{ student.name }}</td>
-        <td align="center">{{ student.gender }}</td>
-        <td align="center">{{ student.birthDate }}</td>
-        <td align="center">{{ student.nativePlace }}</td>
+        <td align="center">{{ student.phone }}</td>
         <td align="center">{{ student.department }}</td>
         <td align="center">
             <button type="submit" :value="student.realId" @click="deleteStudent($event.target.value)">删除</button>
@@ -51,9 +47,7 @@
                             var s = {
                                 id: c.studentId,
                                 name: c.name,
-                                gender: c.gender === 'male' ? '男' : (c.gender === 'female'? '女' : '其他'),
-                                birthDate: c.birthDate,
-                                nativePlace: c.nativePlace,
+                                phone: c.phone,
                                 department: c.department,
                                 realId: c.realId
                             };
@@ -78,9 +72,7 @@
                             var s = {
                                 id: c.studentId,
                                 name: c.name,
-                                gender: c.gender === 'male' ? '男' : (c.gender === 'female'? '女' : '其他'),
-                                birthDate: c.birthDate,
-                                nativePlace: c.nativePlace,
+                                phone: c.phone,
                                 department: c.department,
                                 realId: c.realId
                             };
